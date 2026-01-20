@@ -9,8 +9,11 @@ interface fetchMoviesResponse {
   total_results: number;
 }
 
-export default async function fetchMovies(query: string): Promise<Movie[]> {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${query}`;
+export default async function fetchMovies(
+  query: string,
+  page: number
+): Promise<fetchMoviesResponse> {
+  const url = `https://api.themoviedb.org/3/search/movie?query=${query}&page=${page}`;
   const options = {
     method: 'GET',
     headers: {
@@ -19,6 +22,5 @@ export default async function fetchMovies(query: string): Promise<Movie[]> {
     },
   };
   const response = await axios.get<fetchMoviesResponse>(url, options);
-
-  return response.data.results;
+  return response.data;
 }
